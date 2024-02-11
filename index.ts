@@ -5,41 +5,11 @@ const mysql = require("mysql");
 const { JSDOM } = jsdom;
 
 const proxyUrls = [
-  '117.54.114.97:80',
-  '103.23.102.1:4145',
-  '36.92.96.179:5678',
-  '103.36.11.158:4145',
-  '110.139.128.232:4145',
-  '49.0.2.243:5430',
-  '103.233.103.237:4153',
-  '36.95.245.81:5678',
-  '111.68.31.134:40385',
-  '36.64.238.82:1080',
-  '202.162.212.164:4153',
-  '112.78.39.94:4153',
-  '180.178.104.106:5678',
-  '203.160.61.103:4145',
-  '103.36.35.254:5678',
-  '117.102.115.154:4153',
-  '202.154.19.45:1080',
-  '103.76.172.230:4153',
-  '36.93.217.163:5678',
-  '36.95.48.45:1080',
-  '43.248.25.6:4145',
-  '43.133.136.208:8800',
-  '117.74.125.210:1133',
-  '117.102.85.163:55435',
-  '117.74.120.128:1133',
-  '202.180.20.114:1080',
-  '180.250.159.49:4153',
-  '203.153.125.13:65424',
-  '121.101.131.44:8080',
-  '203.160.61.101:4145',
-  '36.92.125.163:1080',
-  '202.150.148.1:4145',
-  '43.252.237.98:4145',
-  '202.162.219.10:1080',
-  '202.145.11.217:5678'
+  "166.88.235.106:6415",
+  "166.88.64.215:6137",
+  "136.0.207.15:5964",
+  "142.111.255.67:5960",
+  "23.229.110.4:8532"
 ];
 
 function getRandomUserAgent() {
@@ -142,7 +112,7 @@ function getRandomUserAgent() {
       await page.goto("https://cekdptonline.kpu.go.id/");
       await page.focus("#__BVID__20");
 
-      await typeWithSpeed(nik, 100);
+      await typeWithSpeed(nik, 10);
       await page.evaluate(() => {
         const buttons = document.querySelectorAll(".wizard-buttons .btn-primary");
         if (buttons.length > 1) {
@@ -151,7 +121,7 @@ function getRandomUserAgent() {
           console.error('The second button with class "btn-primary" was not found.');
         }
       });
-      await page.waitForTimeout(3000);
+      await page.waitForTimeout(500);
       const bodyHandle = await page.$(".h-100");
       const htmlResponse = await page.evaluate((body) => body.innerHTML, bodyHandle);
       const { document } = new JSDOM(htmlResponse).window;
@@ -197,8 +167,9 @@ function getRandomUserAgent() {
         console.log(kecamatan);
 
         if (tps !== null) {
-          const updateQuery = `UPDATE dptonline SET tps = '${tps}', nama = '${nama}', kecamatan = '${kecamatan}', kelurahan = '${kelurahan}' WHERE nik = ${nik}`;
-          connection.query(updateQuery, (error) => {
+          const updateQuery = `UPDATE dptonline SET tps = ?, nama = ?, kecamatan = ?, kelurahan = ? WHERE nik = ?`;
+          const values = [tps, nama, kecamatan, kelurahan, nik];
+          connection.query(updateQuery, values,(error) => {
             if (error) {
               console.error("Error updating record:", error);
               return;
