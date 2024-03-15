@@ -112,7 +112,7 @@ function getRandomUserAgent() {
       await page.goto("https://cekdptonline.kpu.go.id/");
       await page.focus("#__BVID__20");
 
-      await typeWithSpeed(nik, 10);
+      await typeWithSpeed(nik, 1);
       await page.evaluate(() => {
         const buttons = document.querySelectorAll(".wizard-buttons .btn-primary");
         if (buttons.length > 1) {
@@ -121,7 +121,7 @@ function getRandomUserAgent() {
           console.error('The second button with class "btn-primary" was not found.');
         }
       });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(300);
       const bodyHandle = await page.$(".h-100");
       const htmlResponse = await page.evaluate((body) => body.innerHTML, bodyHandle);
       const { document } = new JSDOM(htmlResponse).window;
